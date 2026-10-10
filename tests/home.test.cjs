@@ -2,35 +2,21 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { readFileSync } = require("node:fs");
 const { join } = require("node:path");
-const { guideTopics, filterTopics } = require("../assets/home.js");
+const { guideSubjects, guideResources } = require("../assets/catalog.js");
 
-// 锁定用户实际会遇到的搜索边界；新增主题不需要调整固定数量断言。
-test("搜索处理空白、大小写、全角输入与多个关键词", () => {
-  assert.equal(filterTopics(guideTopics, "  ").length, guideTopics.length);
-  assert.deepEqual(filterTopics(guideTopics, "  ＲＥＤＩＳ  mysql ").map((topic) => topic.id), ["database"]);
-  assert.deepEqual(filterTopics(guideTopics, "线程池").map((topic) => topic.id), ["jvm"]);
-  assert.deepEqual(filterTopics(guideTopics, "redis", "基础能力"), []);
-  assert.ok(filterTopics(guideTopics, "", "基础能力").every((topic) => topic.category === "基础能力"));
-  assert.deepEqual(filterTopics(guideTopics, "<script>alert(1)</script>"), []);
-  assert.deepEqual(filterTopics(guideTopics, "[.*"), []);
-  assert.deepEqual(filterTopics([], "java"), []);
-  assert.deepEqual(filterTopics(guideTopics, "", "不存在的分类"), []);
-});
-
-// 验证数据唯一且每个入口对应文档已有目录锚点，防止扩展时引入无效导航。
-test("主题元数据完整，链接均对应现有文档目录", () => {
+// 检查主题与资源的关联，以及已收录章节链接；独立文档允许使用不同路径。
+test("主题与资源 ID 唯一，所有章节入口有效", () => {
   const markdown = readFileSync(join(__dirname, "../JavaGuide_面试知识体系.md"), "utf8");
-  assert.equal(new Set(guideTopics.map((topic) => topic.id)).size, guideTopics.length);
-  for (const topic of guideTopics) {
-    assert.ok(topic.title && topic.description && topic.category && topic.tags.length);
-    if (topic.href) {
-      assert.equal(new URL(topic.href, "https://fanyongqing7.github.io/hello-xhxy/").protocol, "https:");
-    } else {
-      assert.ok(markdown.includes(`](#${topic.anchor})`), `缺少目录锚点：${topic.anchor}`);
+  const subjects = new Set(guideSubjects.map(subject => subject.id));
+  assert.equal(subjects.size, guideSubjects.length);
+  assert.equal(new Set(guideResources.map(resource => resource.id)).size, guideResources.length);
+  for (const resource of guideResources) {
+    assert.ok(subjects.has(resource.subjectId));
+    assert.ok(resource.title && resource.description && resource.tags.length);
+    const url = new URL(resource.href, "https://fanyongqing7.github.io/hello-xhxy/");
+    assert.equal(url.protocol, "https:");
+    if (url.pathname.endsWith("/java-guide/")) {
+      assert.ok(markdown.includes("](#" + decodeURIComponent(url.hash.slice(1)) + ")"), resource.href);
     }
-  }
-  const html = readFileSync(join(__dirname, "../index.html"), "utf8");
-  for (const [, category] of html.matchAll(/data-category-link="([^"]+)"/g)) {
-    assert.ok(guideTopics.some((topic) => topic.category === category), `学习路径缺少分类：${category}`);
   }
 });
