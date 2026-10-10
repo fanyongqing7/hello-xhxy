@@ -41,6 +41,48 @@ const root = pathToFileURL(path.resolve(__dirname, "../") + path.sep).href;
       await page.locator('[data-width="mobile"]').click();
       assert.match(await page.locator("#design-frame").getAttribute("class"), /mobile/);
     }
+    // 问答页必须默认关闭，键盘可展开，搜索与原有章节深链接可以配合使用。
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(new URL("java-guide/index.html", root).href);
+    const questionCount = await page.locator(".qa-item").count();
+    assert.equal(questionCount, 1405);
+    assert.equal(await page.locator(".qa-item[open],.qa-follow[open]").count(), 0);
+    await page.locator("#q-1>summary").focus();
+    await page.keyboard.press("Enter");
+    assert(await page.locator("#q-1>.qa-answer").isVisible());
+    await page.locator("#q-1 .qa-follow>summary").click();
+    assert(await page.locator("#q-1 .qa-follow-answer").isVisible());
+    await page.locator("#qa-collapse").click();
+    assert.equal(await page.locator(".qa-item[open],.qa-follow[open]").count(), 0);
+    await page.locator("#qa-search").fill("Ｒｅｄｉｓ");
+    await page.waitForFunction(() => document.querySelector("#qa-status").textContent.startsWith("找到"));
+    const found = await page.locator(".qa-item:not([hidden])").count();
+    assert(found > 0 && found < questionCount);
+    await page.locator("#qa-search").fill("<script>__nothing__");
+    await page.locator("#qa-empty").waitFor({ state: "visible" });
+    await page.locator("#qa-clear").click();
+    assert.equal(await page.locator(".qa-item:not([hidden])").count(), questionCount);
+    await page.goto(new URL("java-guide/index.html#q-1405", root).href);
+    await page.waitForFunction(() => document.querySelector("#q-1405").open);
+    await page.locator("#qa-search").fill("__nothing__");
+    await page.locator("#qa-empty").waitFor({ state: "visible" });
+    await page.locator('.chapter-menu a[href="#八ai-应用开发与-ai-编程"]').click();
+    assert.equal(await page.locator("#qa-search").inputValue(), "");
+    assert(await page.locator('[id="八ai-应用开发与-ai-编程"]').isVisible());
+    await page.evaluate(() => { location.hash = "%invalid"; });
+    for (const width of [1440, 768, 390, 320]) {
+      await page.setViewportSize({ width, height: 900 });
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "QA overflow at " + width);
+    }
+    // 关闭脚本也仍有完整问答，而且答案默认收起。
+    const noScript = await browser.newContext({ javaScriptEnabled: false });
+    const staticPage = await noScript.newPage();
+    await staticPage.goto(new URL("java-guide/index.html", root).href);
+    assert.equal(await staticPage.locator(".qa-item[open]").count(), 0);
+    await staticPage.locator("#q-1>summary").click();
+    assert(await staticPage.locator("#q-1>.qa-answer").isVisible());
+    await noScript.close();
+    console.log("PASS QA defaults, nested answers, keyboard, search, deep links, mobile, no-JS");
     assert.deepEqual(errors, []);
     console.log("PASS preview selection, URL allowlist, mobile toggle; zero JS errors");
   } finally {

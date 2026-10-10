@@ -1,0 +1,91 @@
+/* C 版阅读页：沿用数字花园的纸色、草绿与紫色，正文留出足够阅读空间。 */
+.guide-page { --lib-muted:#53634f; color:#243629; }
+.guide-page .wrap { width:min(1320px,calc(100% - 88px)); }
+.guide-hero { display:flex; justify-content:space-between; align-items:center; gap:45px; padding:49px 0 35px; }
+.guide-hero .garden-badge { margin-bottom:19px; letter-spacing:1px; font-size:10px; }
+.guide-hero h1 { font-size:clamp(32px,3.3vw,48px); font-weight:700; line-height:1.4; letter-spacing:-1.7px; margin:0 0 20px; }
+.guide-hero h1 span { background:linear-gradient(transparent 65%,#dff47e 65%); }
+.guide-hero p:not(.garden-badge) { margin:8px 0; font-size:15px; }
+.guide-hero p.guide-intro { color:#687861; font-size:12px; }
+.guide-stamp { position:relative; flex-shrink:0; display:flex; flex-direction:column; justify-content:center; width:255px; height:193px; padding:24px; border:1.5px solid #3c4e37; border-radius:17px; background:#e2d9f7; transform:rotate(5deg); box-shadow:7px 8px 0 #e4f584; margin-right:20px; }
+.guide-stamp>span { font:10px/1.8 "SFMono-Regular",monospace; letter-spacing:1px; }
+.guide-stamp strong { font-size:55px; letter-spacing:-3px; line-height:1.7; }
+.guide-stamp i { color:#6e5d89; font-size:35px; font-style:normal; }
+.guide-stamp>b { position:absolute; right:-17px; top:-30px; font-size:65px; font-weight:400; color:#526e3b; }
+.guide-meta { display:flex; flex-wrap:wrap; align-items:center; gap:30px; padding:20px 0; border-block:1px solid #bccbb4; font-size:11px; color:#67775e; }
+.guide-meta b { font-size:18px; font-weight:600; color:#344a32; margin-right:6px; }
+.guide-meta .default-note { margin-left:auto; border:1px solid #b8cca4; border-radius:25px; padding:5px 11px; color:#4c6940; background:#f0f7e3; }
+.guide-layout { display:grid; grid-template-columns:242px minmax(0,1fr); gap:45px; align-items:start; padding-top:35px; }
+.guide-sidebar { position:sticky; top:20px; max-height:calc(100dvh - 40px); overflow:auto; scrollbar-width:thin; }
+.chapter-menu>summary { display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-size:14px; font-weight:600; margin-bottom:17px; list-style:none; }
+.chapter-menu>summary::-webkit-details-marker { display:none; }
+.chapter-menu>summary>span { font-size:10px; color:#7b8870; font-weight:400; }
+.chapter-menu nav { display:grid; gap:4px; }
+.chapter-menu nav a { display:flex; align-items:flex-start; gap:9px; padding:12px 9px; font-size:11px; border-radius:7px; line-height:1.7; transition:background .15s; }
+.chapter-menu nav a:hover,.chapter-menu nav a:focus-visible { background:#e7efd8; }
+.chapter-menu nav a>span:first-child { font:9px/1.9 monospace; color:#81926f; padding-top:2px; }
+.chapter-menu nav a small { margin-left:auto; padding-left:5px; color:#718465; font-size:9px; }
+.sidebar-tip { position:relative; border:1px dashed #b9c5ab; padding:20px; border-radius:13px; color:#718260; font-size:11px; line-height:1.9; margin-top:25px; background:#f3f6ea; }
+.sidebar-tip span { position:absolute; right:17px; top:20px; color:#92a653; font-size:31px; }
+.guide-main { min-width:0; }
+.guide-tools { padding:0 0 20px; }
+.guide-search { display:flex; align-items:center; gap:12px; border:1px solid #acbda5; border-radius:10px; background:#fff; padding:0 17px; height:51px; }
+.guide-search>span:first-child { font-size:27px; color:#73876a; }
+.guide-search input { flex:1; min-width:0; height:100%; border:0; outline:0; background:transparent; color:#263b2c; font-size:13px; }
+.guide-search:focus-within { box-shadow:0 0 0 3px #e0edc8; border-color:#668a52; }
+.guide-search kbd { color:#7e8d75; border:1px solid #dae1d3; border-radius:4px; padding:0 7px; font-size:11px; }
+.guide-tool-row { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-top:14px; }
+.guide-tool-row p { margin:0; font-size:11px; color:#708364; }
+.guide-tool-row button { background:transparent; border:0; border-bottom:1px solid #afbf9d; color:#4e6f42; cursor:pointer; padding:5px 0; white-space:nowrap; font-size:11px; }
+.qa-chapter { scroll-margin-top:24px; margin-bottom:50px; }
+.chapter-heading { display:flex; gap:15px; align-items:center; border-bottom:1px solid #97ae88; padding:18px 0; margin-bottom:22px; }
+.chapter-heading>span { display:grid; place-items:center; flex-shrink:0; width:42px; height:42px; border-radius:50%; border:1px solid #637e50; background:#e4f584; font:16px monospace; }
+.chapter-heading h2 { font-size:24px; line-height:1.5; letter-spacing:-.7px; font-weight:650; margin:0; }
+.qa-chapter:nth-child(even) .chapter-heading>span { background:#e4dcf5; border-color:#9180a7; }
+.qa-chapter h3 { font-size:19px; line-height:1.6; font-weight:650; margin:29px 0 17px; scroll-margin-top:25px; }
+.qa-chapter h4 { font-size:13px; font-weight:600; color:#687c58; margin:24px 0 12px; }
+.qa-chapter>blockquote { border-left:3px solid #c4d5ad; margin:0 0 23px; padding:1px 16px; color:#687961; font-size:12px; }
+.qa-item { border:1px solid #d0dac7; border-radius:12px; margin-bottom:11px; background:#fff; scroll-margin-top:25px; }
+.qa-item>summary { display:flex; gap:15px; align-items:center; cursor:pointer; padding:19px 20px; list-style:none; }
+.qa-item>summary::-webkit-details-marker,.qa-follow>summary::-webkit-details-marker { display:none; }
+.qa-item>summary:hover { background:#f4f8ea; border-radius:12px; }
+.question-label { flex-shrink:0; font-size:19px; line-height:1.1; color:#799151; font-weight:600; text-align:center; width:31px; }
+.question-label small { display:block; font:8px monospace; margin-top:6px; color:#8b9a7c; }
+.question-text { font-size:14px; line-height:1.85; font-weight:550; overflow-wrap:anywhere; }
+.qa-toggle { flex-shrink:0; width:22px; height:22px; margin-left:auto; border:1px solid #b8c8a8; border-radius:50%; position:relative; }
+.qa-toggle::before,.qa-toggle::after { content:""; position:absolute; background:#728960; width:8px; height:1px; left:6px; top:9px; }
+.qa-toggle::after { transform:rotate(90deg); }
+.qa-item[open] { border-color:#95ac7a; box-shadow:3px 4px 0 #eaf0dd; }
+.qa-item[open]>.qa-answer { border-top:1px solid #e5ebde; }
+.qa-item[open]>summary .qa-toggle::after { display:none; }
+.qa-answer { padding:22px 25px 25px 66px; color:#344832; font-size:14px; line-height:2; overflow-wrap:anywhere; }
+.qa-answer p { margin:0 0 18px; }
+.qa-answer p:last-child { margin-bottom:0; }
+.qa-answer .answer-label { font:10px/1.5 "SFMono-Regular",monospace; color:#728952; letter-spacing:1px; margin-bottom:17px; }
+.qa-answer a,.guide-notes a,.qa-chapter>ul a { color:#417445; text-decoration:underline; text-underline-offset:3px; }
+.qa-answer strong { color:#203b29; }
+.qa-item code,.guide-notes code { font-family:"SFMono-Regular",Consolas,monospace; font-size:.88em; background:#eff3e9; padding:2px 4px; border-radius:4px; overflow-wrap:anywhere; }
+.qa-answer pre { max-width:100%; overflow:auto; background:#eef2e7; border:1px solid #d8e1ca; padding:15px; border-radius:8px; line-height:1.7; }
+.qa-answer pre code { white-space:pre; overflow-wrap:normal; padding:0; }
+.qa-answer table { display:block; max-width:100%; overflow:auto; border-collapse:collapse; }
+.qa-answer td,.qa-answer th { padding:8px 12px; border:1px solid #d1dbc8; }
+.qa-follow { margin-top:23px; padding:0 18px; background:#f3effa; border:1px solid #d5c9e7; border-radius:10px; }
+.qa-follow>summary { list-style:none; cursor:pointer; font-size:13px; line-height:1.9; padding:17px 0; color:#58416f; }
+.qa-follow>summary>span { display:inline-block; font-size:10px; font-weight:600; background:#e4d9f4; padding:1px 7px; border-radius:5px; margin-right:10px; }
+.qa-follow>summary::after { content:" ＋"; color:#8d74aa; white-space:nowrap; }
+.qa-follow[open]>summary::after { content:" −"; }
+.qa-follow-answer { padding:17px 0; border-top:1px solid #ddd2ea; }
+.qa-empty { text-align:center; padding:55px 20px; border:1px dashed #a9ba94; border-radius:15px; background:#f4f8e9; }
+.qa-empty>span { font-size:38px; color:#839b52; }
+.qa-empty h2 { font-size:20px; }
+.qa-empty p { font-size:12px; color:#6d805e; }
+.qa-empty button { border:1px solid #586e45; border-radius:30px; padding:10px 18px; background:#344b33; color:#fff; font-size:12px; cursor:pointer; }
+.guide-notes { margin:30px 0; padding:22px; border:1px solid #c5d0b8; border-radius:12px; background:#f3f5e9; font-size:13px; line-height:1.9; scroll-margin-top:25px; }
+.guide-notes>summary { cursor:pointer; font-weight:600; }
+.guide-notes blockquote { margin:17px 0; }
+.guide-page .design-footer { border-top:1px solid #c3ceba; margin-top:40px; }
+.qa-chapter>ul { font-size:13px; line-height:1.9; overflow-wrap:anywhere; }
+/* 小屏使用顶置目录，代码和长标题不撑宽页面。 */
+@media(max-width:1000px) { .guide-page .wrap { width:calc(100% - 48px); } .guide-layout { grid-template-columns:195px minmax(0,1fr); gap:25px; } .guide-stamp { width:205px; height:176px; } .guide-stamp strong { font-size:45px; } .guide-meta { gap:20px; } .guide-meta .default-note { margin-left:0; } .qa-answer { padding-left:24px; } }
+@media(max-width:700px) { .guide-page .wrap { width:calc(100% - 36px); } .guide-hero { padding:33px 0 25px; } .guide-hero h1 { font-size:34px; letter-spacing:-1px; } .guide-stamp { display:none; } .guide-hero .garden-badge { font-size:8px; } .guide-hero p:not(.garden-badge) { font-size:13px; } .guide-hero p.guide-intro { font-size:11px; line-height:1.9; } .guide-meta { gap:13px; padding-block:18px; font-size:10px; } .guide-meta b { font-size:17px; } .guide-meta .default-note { font-size:10px; } .guide-layout { grid-template-columns:1fr; gap:25px; padding-top:24px; } .guide-sidebar { position:static; max-height:none; overflow:visible; } .chapter-menu { border:1px solid #c8d4ba; border-radius:12px; padding:16px; background:#f2f6e9; } .chapter-menu>summary { margin:0; font-size:13px; } .chapter-menu nav { margin-top:14px; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; } .chapter-menu nav a { font-size:10px; padding:8px 4px; } .chapter-menu nav a small { display:none; } .sidebar-tip { display:none; } .guide-tools { padding-bottom:10px; } .guide-tool-row p { font-size:10px; } .guide-tool-row button { font-size:10px; } .guide-search input { font-size:12px; } .guide-search kbd { display:none; } .chapter-heading { gap:11px; } .chapter-heading h2 { font-size:21px; } .chapter-heading>span { width:35px; height:35px; font-size:13px; } .qa-chapter h3 { font-size:17px; } .qa-item>summary { padding:16px 13px; gap:10px; } .question-label { font-size:17px; width:24px; } .question-text { font-size:13px; } .qa-answer { padding:18px 16px; font-size:13px; } .qa-follow { padding-inline:13px; } .qa-follow>summary { font-size:12px; } .guide-notes { padding:17px; font-size:12px; } }
+@media print { .guide-sidebar,.guide-tools,.guide-stamp,.skip-link { display:none; } .guide-layout { display:block; } .qa-item { break-inside:avoid; } }

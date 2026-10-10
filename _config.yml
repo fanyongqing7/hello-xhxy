@@ -1,0 +1,9 @@
+# 问答 HTML 已预生成；排除维护源，避免两个文件同时发布到 /java-guide/。
+exclude:
+  - JavaGuide_面试知识体系.md
+  - scripts
+  - tests
+  - node_modules
+  - package.json
+  - package-lock.json
+  - .idea
