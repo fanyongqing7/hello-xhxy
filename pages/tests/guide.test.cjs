@@ -7,12 +7,22 @@ const { guideResources } = require("../assets/catalog.js");
 
 // 保证原文题目、追问与附录不会在生成过程中丢失，并保持现有章节 URL。
 test("完整文档的问答、追问和旧锚点均进入静态 HTML", async () => {
-  const source = readFileSync(join(__dirname, "../JavaGuide_面试知识体系.md"), "utf8");
+  const source = readFileSync(join(__dirname, "../../JavaGuide_面试知识体系.md"), "utf8");
   const result = await renderGuide(source);
   assert.equal(result.count, (source.match(/^\*\*Q[：:]/gm) || []).length);
   assert.equal((result.html.match(/class="qa-follow"/g) || []).length, (source.match(/^\*\*追问解答[：:]\*\*/gm) || []).length);
   assert.equal(result.chapters, 11);
-  for (const resource of guideResources) assert.ok(result.html.includes('id="' + decodeURI(resource.href.split("#")[1]) + '"'));
+  // 每章仅发布自己的正文，总题量不变，文件名、题目 ID 与旧链接映射唯一。
+  assert.equal(result.pages.length, 11);
+  assert.equal(result.pages.reduce((sum, page) => sum + page.count, 0), result.count);
+  assert.equal(new Set(result.pages.map(page => page.file)).size, 11);
+  for (const page of result.pages) {
+    assert.equal((page.html.match(/class="qa-chapter"/g) || []).length, 1);
+    assert.equal((page.html.match(/class="qa-item"/g) || []).length, page.count);
+    assert.equal(result.routes[page.id], page.file);
+    for (const match of page.html.matchAll(/id="(q-\d+)"/g)) assert.equal(result.routes[match[1]], page.file);
+  }
+  for (const resource of guideResources) assert.ok(result.pages.some(page => "java-guide/" + page.file === resource.href));
   assert.ok(result.html.includes("{{1,0},{-1,0},{0,1},{0,-1}}"));
   assert.ok(result.html.includes("资料来源") && result.html.includes("跨章节深挖题"));
   assert.doesNotMatch(result.html, /<details[^>]*\bopen[\s>]/);

@@ -56,6 +56,7 @@ document.addEventListener("click", event => {
   if (link) revealHash(link.getAttribute("href"), false);
 });
 document.addEventListener("keydown", event => {
+  if (!questions.length) return;
   if (event.isComposing || event.ctrlKey || event.altKey || event.metaKey) return;
   if (event.key === "/" && !event.target.closest("input,textarea,select,[contenteditable]")) {
     event.preventDefault();
@@ -66,6 +67,9 @@ document.addEventListener("keydown", event => {
     filterQuestions();
   }
 });
-filterQuestions();
-document.querySelector("#guide-tools").hidden = false;
+// 总览与资料来源页没有问答，不展示空搜索框或“没有结果”提示。
+if (questions.length) {
+  filterQuestions();
+  document.querySelector("#guide-tools").hidden = false;
+}
 revealHash(location.hash);

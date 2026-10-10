@@ -6,7 +6,7 @@ const guideSubjects = [
   { id: "ai", name: "AI 与智能应用", english: "AI & INTELLIGENCE", symbol: "AI", description: "探索大模型、智能应用与 AI 编程，从现有入门内容开始。", tags: ["人工智能", "Agent", "RAG", "AI 编程"] }
 ];
 
-// href 相对站点根目录，也支持 HTTPS；内容可来自任意文档，不绑定 JavaGuide。
+// href 相对站点根目录，也支持 HTTPS；问答直接打开独立章节页。
 const guideResources = [
   {
     "id": "java",
@@ -21,7 +21,7 @@ const guideResources = [
     ],
     "keywords": "集合 源码 异常 反射 序列化",
     "subjectId": "java",
-    "href": "java-guide/#一java-基础与集合",
+    "href": "java-guide/chapter-01.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -38,7 +38,7 @@ const guideResources = [
     ],
     "keywords": "多线程 锁 ThreadLocal IO 内存 垃圾回收",
     "subjectId": "java",
-    "href": "java-guide/#二java-并发jvm-与-io",
+    "href": "java-guide/chapter-02.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -55,7 +55,7 @@ const guideResources = [
     ],
     "keywords": "进程 网络 Linux UDP DNS HTTPS",
     "subjectId": "java",
-    "href": "java-guide/#三操作系统与计算机网络",
+    "href": "java-guide/chapter-03.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -72,7 +72,7 @@ const guideResources = [
     ],
     "keywords": "算法 排序 二叉树 链表 图搜索 动态规划",
     "subjectId": "java",
-    "href": "java-guide/#四数据结构与算法",
+    "href": "java-guide/chapter-04.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -89,7 +89,7 @@ const guideResources = [
     ],
     "keywords": "数据库 MongoDB Elasticsearch 缓存 索引 SQL 事务",
     "subjectId": "java",
-    "href": "java-guide/#五数据库mysql--redis--mongodb--es",
+    "href": "java-guide/chapter-05.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -106,7 +106,7 @@ const guideResources = [
     ],
     "keywords": "框架 Spring Boot MyBatis 认证 鉴权 架构",
     "subjectId": "java",
-    "href": "java-guide/#六系统设计常用框架与安全",
+    "href": "java-guide/chapter-06.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -123,7 +123,7 @@ const guideResources = [
     ],
     "keywords": "一致性 微服务 RPC Kafka MQ 性能 容灾 负载均衡",
     "subjectId": "java",
-    "href": "java-guide/#七分布式高性能与高可用",
+    "href": "java-guide/chapter-07.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -140,7 +140,7 @@ const guideResources = [
     ],
     "keywords": "人工智能 大模型 LLM 提示词 编程",
     "subjectId": "ai",
-    "href": "java-guide/#八ai-应用开发与-ai-编程",
+    "href": "java-guide/chapter-08.html",
     "source": "JavaGuide",
     "type": "章节"
   },
@@ -157,7 +157,7 @@ const guideResources = [
     ],
     "keywords": "简历 求职 项目 Maven Docker 工具",
     "subjectId": "java",
-    "href": "java-guide/#九开发工具与面试准备",
+    "href": "java-guide/chapter-09.html",
     "source": "JavaGuide",
     "type": "章节"
   }

@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-guide.cjs",
-    "test": "node --test tests/*.test.cjs"
+    "test": "node --test tests/*.test.cjs",
+    "deploy": "node scripts/publish-pages.cjs"
   },
   "devDependencies": {
     "marked": "17.0.5"

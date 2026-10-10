@@ -85,7 +85,23 @@
 .guide-notes blockquote { margin:17px 0; }
 .guide-page .design-footer { border-top:1px solid #c3ceba; margin-top:40px; }
 .qa-chapter>ul { font-size:13px; line-height:1.9; overflow-wrap:anywhere; }
+/* 总览只显示章节卡片；阅读页缩短首屏，并标记当前页和前后章节。 */
+.chapter-cards { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:17px; }
+.chapter-card { display:flex; flex-direction:column; padding:23px; border:1px solid #adbd9b; border-radius:14px; background:#f0f6e3; transition:transform .15s,box-shadow .15s; }
+.chapter-card:nth-child(3n + 2) { background:#efe9f8; border-color:#c6b9d9; }
+.chapter-card:hover { transform:translateY(-3px); box-shadow:3px 4px 0 #dce6cc; }
+.chapter-card h2 { font-size:19px; line-height:1.5; margin:0 0 15px; }
+.chapter-card p { font-size:11px; color:#67775e; margin:0 0 25px; }
+.chapter-card>span:last-child { margin-top:auto; font-size:11px; }
+.chapter-page .guide-hero { padding-block:27px 24px; }
+.chapter-page .guide-hero h1 { font-size:30px; letter-spacing:-.7px; }
+.chapter-page .guide-stamp { display:none; }
+.chapter-menu nav a[aria-current="page"] { background:#e1edc6; color:#2f532d; font-weight:600; }
+.chapter-pagination { display:flex; justify-content:space-between; gap:20px; padding:22px 0; border-top:1px solid #c5d1b8; font-size:12px; }
+.chapter-pagination a { max-width:48%; }
+.chapter-pagination a:last-child { text-align:right; }
 /* 小屏使用顶置目录，代码和长标题不撑宽页面。 */
+@media(max-width:700px) { .chapter-cards { grid-template-columns:1fr; } .chapter-page .guide-hero h1 { font-size:25px; } }
 @media(max-width:1000px) { .guide-page .wrap { width:calc(100% - 48px); } .guide-layout { grid-template-columns:195px minmax(0,1fr); gap:25px; } .guide-stamp { width:205px; height:176px; } .guide-stamp strong { font-size:45px; } .guide-meta { gap:20px; } .guide-meta .default-note { margin-left:0; } .qa-answer { padding-left:24px; } }
 @media(max-width:700px) { .guide-page .wrap { width:calc(100% - 36px); } .guide-hero { padding:33px 0 25px; } .guide-hero h1 { font-size:34px; letter-spacing:-1px; } .guide-stamp { display:none; } .guide-hero .garden-badge { font-size:8px; } .guide-hero p:not(.garden-badge) { font-size:13px; } .guide-hero p.guide-intro { font-size:11px; line-height:1.9; } .guide-meta { gap:13px; padding-block:18px; font-size:10px; } .guide-meta b { font-size:17px; } .guide-meta .default-note { font-size:10px; } .guide-layout { grid-template-columns:1fr; gap:25px; padding-top:24px; } .guide-sidebar { position:static; max-height:none; overflow:visible; } .chapter-menu { border:1px solid #c8d4ba; border-radius:12px; padding:16px; background:#f2f6e9; } .chapter-menu>summary { margin:0; font-size:13px; } .chapter-menu nav { margin-top:14px; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; } .chapter-menu nav a { font-size:10px; padding:8px 4px; } .chapter-menu nav a small { display:none; } .sidebar-tip { display:none; } .guide-tools { padding-bottom:10px; } .guide-tool-row p { font-size:10px; } .guide-tool-row button { font-size:10px; } .guide-search input { font-size:12px; } .guide-search kbd { display:none; } .chapter-heading { gap:11px; } .chapter-heading h2 { font-size:21px; } .chapter-heading>span { width:35px; height:35px; font-size:13px; } .qa-chapter h3 { font-size:17px; } .qa-item>summary { padding:16px 13px; gap:10px; } .question-label { font-size:17px; width:24px; } .question-text { font-size:13px; } .qa-answer { padding:18px 16px; font-size:13px; } .qa-follow { padding-inline:13px; } .qa-follow>summary { font-size:12px; } .guide-notes { padding:17px; font-size:12px; } }
 @media print { .guide-sidebar,.guide-tools,.guide-stamp,.skip-link { display:none; } .guide-layout { display:block; } .qa-item { break-inside:avoid; } }
