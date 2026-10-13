@@ -1,9 +1,12 @@
 // 一次性浏览器回归：直接读取静态文件，无需启动服务器；复用环境中的 Playwright/Chrome。
 const assert = require("node:assert/strict");
 const path = require("node:path");
+const { readFileSync } = require("node:fs");
 const { pathToFileURL } = require("node:url");
 const { chromium } = require("playwright");
 const root = pathToFileURL(path.resolve(__dirname, "../") + path.sep).href;
+// 题量随内容增长；仍与 Markdown 独立核对，避免固定末题编号使新增问答破坏回归。
+const expectedQuestions = (readFileSync(path.resolve(__dirname, "../../JavaGuide_面试知识体系.md"), "utf8").match(/^\*\*Q[：:]/gm) || []).length;
 
 (async () => {
   const browser = await chromium.launch({ headless: true, channel: "chrome" });
@@ -56,7 +59,7 @@ const root = pathToFileURL(path.resolve(__dirname, "../") + path.sep).href;
       assert(!(await page.locator("#qa-empty").isVisible()));
       total += await page.locator(".qa-item").count();
     }
-    assert.equal(total, 1405);
+    assert.equal(total, expectedQuestions);
     await page.goto(new URL("java-guide/chapter-01.html", root).href);
     const questionCount = await page.locator(".qa-item").count();
     assert.equal(questionCount, 148);
@@ -76,15 +79,23 @@ const root = pathToFileURL(path.resolve(__dirname, "../") + path.sep).href;
     await page.locator("#qa-empty").waitFor({ state: "visible" });
     await page.locator("#qa-clear").click();
     assert.equal(await page.locator(".qa-item:not([hidden])").count(), questionCount);
-    await page.goto(new URL("java-guide/index.html#q-1405", root).href);
+    await page.goto(new URL("java-guide/index.html#q-" + expectedQuestions, root).href);
     await page.waitForURL(/chapter-10\.html/);
-    await page.waitForFunction(() => document.querySelector("#q-1405").open);
+    await page.waitForFunction(id => document.getElementById(id).open, "q-" + expectedQuestions);
     await page.locator("#qa-search").fill("__nothing__");
     await page.locator("#qa-empty").waitFor({ state: "visible" });
     await page.locator('.chapter-menu a[href="./chapter-08.html"]').click();
     await page.waitForURL(/chapter-08\.html/);
     assert.equal(await page.locator("#qa-search").inputValue(), "");
     assert(await page.locator('[id="八ai-应用开发与-ai-编程"]').isVisible());
+    // 新增专题保留八组独立问答与追问，展开长答案后也检查窄屏布局。
+    const streamingTopic = page.locator(".qa-topic").filter({ has: page.locator("#sse-流式输出安全检测阻断与撤回") });
+    assert.equal(await streamingTopic.locator(".qa-item").count(), 8);
+    assert.equal(await streamingTopic.locator(".qa-follow").count(), 8);
+    assert.equal(await streamingTopic.locator("details[open]").count(), 0);
+    await streamingTopic.locator(".qa-item>summary").first().click();
+    assert(await streamingTopic.locator(".qa-answer").first().isVisible());
+    assert.match(await streamingTopic.innerText(), /已经发送出去的字节不能召回/);
     await page.evaluate(() => { location.hash = "%invalid"; });
     for (const width of [1440, 768, 390, 320]) {
       await page.setViewportSize({ width, height: 900 });
@@ -99,7 +110,7 @@ const root = pathToFileURL(path.resolve(__dirname, "../") + path.sep).href;
     await staticPage.locator("#q-1>summary").click();
     assert(await staticPage.locator("#q-1>.qa-answer").isVisible());
     await noScript.close();
-    console.log("PASS 11 chapter pages, 1405 questions, legacy redirects, QA, search, mobile, no-JS");
+    console.log("PASS 11 chapter pages, " + total + " questions, SSE safety topic, legacy redirects, QA, search, mobile, no-JS");
     assert.deepEqual(errors, []);
     console.log("PASS preview selection, URL allowlist, mobile toggle; zero JS errors");
   } finally {
